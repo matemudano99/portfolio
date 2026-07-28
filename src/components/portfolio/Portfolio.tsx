@@ -28,8 +28,6 @@ interface BaseCommand {
   run: () => void;
 }
 
-const HATCH = 'repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 1px,transparent 1px 9px)';
-
 export default function Portfolio() {
   const [lang, setLang] = useState<Lang>(DEFAULT_LANG);
   const [accent, setAccent] = useState<string>(DEFAULT_ACCENT);
@@ -170,7 +168,8 @@ export default function Portfolio() {
       summary: p.summary[lang],
       bullets: p.bullets[lang],
       stack: p.stack,
-      shots: p.shots[lang],
+      shots: p.shots.map((s) => ({ src: s.src, kind: s.kind, label: s.label[lang] })),
+      links: p.links ?? [],
       isOpen,
       cta: isOpen ? `— ${t.close}` : `+ ${t.open}`,
       barW: isHover && !isOpen ? '100%' : '0%',
@@ -181,8 +180,9 @@ export default function Portfolio() {
     };
   });
 
-  const showPreview = hovered !== null && open !== hovered;
-  const previewLabel = hovered !== null ? projects[hovered].shots[lang][0] : '';
+  const previewShot = hovered !== null ? projects[hovered].shots[0] : undefined;
+  const showPreview = hovered !== null && open !== hovered && Boolean(previewShot);
+  const previewLabel = previewShot ? previewShot.label[lang] : '';
 
   // --- command palette ---
   const baseCommands: BaseCommand[] = useMemo(() => {
@@ -330,26 +330,30 @@ export default function Portfolio() {
           left: 0,
           zIndex: 80,
           pointerEvents: 'none',
-          width: 'min(30vw,280px)',
+          width: 'min(32vw,360px)',
           opacity: showPreview ? 1 : 0,
           transition: 'opacity .3s ease',
           willChange: 'transform',
         }}
       >
-        <div
-          style={{
-            aspectRatio: '4/5',
-            border: `1px solid rgba(255,255,255,.14)`,
-            borderRadius: 4,
-            background: C.bg,
-            backgroundImage: HATCH,
-            display: 'flex',
-            alignItems: 'flex-end',
-            padding: 11,
-          }}
-        >
-          <span style={{ fontSize: 10.5, lineHeight: 1.5, color: C.muted }}>{previewLabel}</span>
-        </div>
+        {previewShot && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <img
+              src={previewShot.src}
+              alt=""
+              style={{
+                width: '100%',
+                height: 'auto',
+                display: 'block',
+                border: `1px solid rgba(255,255,255,.14)`,
+                borderRadius: 4,
+                background: C.bg,
+                boxShadow: '0 18px 50px rgba(0,0,0,.55)',
+              }}
+            />
+            <span style={{ fontSize: 10.5, lineHeight: 1.5, color: C.muted }}>// {previewLabel}</span>
+          </div>
+        )}
       </div>
 
       {palette && (

@@ -74,7 +74,7 @@ export const strings: Record<Lang, Strings> = {
     heroLead:
       'Full-stack developer working across backend services, databases and the interfaces on top of them. Java and Python at the core.',
     workLabel: 'selected work',
-    workNote: 'Two products in use, two study projects. Hover to preview, click to expand.',
+    workNote: 'Two real-world products, two study projects. Hover to preview, click to expand.',
     experienceLabel: 'experience',
     experienceNote: 'Where I have worked so far — real team, real deadlines.',
     aboutLabel: 'about',
@@ -116,7 +116,7 @@ export const strings: Record<Lang, Strings> = {
     heroLead:
       'Desarrollador full-stack centrado en servicios backend, bases de datos y las interfaces que las usan. Java y Python como base.',
     workLabel: 'proyectos',
-    workNote: 'Dos productos en uso y dos proyectos de estudios. Pasa el cursor para ver, pulsa para abrir.',
+    workNote: 'Dos productos reales y dos proyectos de estudios. Pasa el cursor para ver, pulsa para abrir.',
     experienceLabel: 'experiencia',
     experienceNote: 'Dónde he trabajado hasta ahora — equipo real, plazos reales.',
     aboutLabel: 'sobre mí',
@@ -134,6 +134,20 @@ export const strings: Record<Lang, Strings> = {
   },
 };
 
+/** 'wide' = captura de escritorio, 'tall' = captura de móvil. */
+export type ShotKind = 'wide' | 'tall';
+
+export interface Shot {
+  src: string;
+  kind: ShotKind;
+  label: Localized;
+}
+
+export interface ProjectLink {
+  label: string;
+  url: string;
+}
+
 export interface Project {
   n: string;
   title: string;
@@ -144,7 +158,8 @@ export interface Project {
   stack: string[];
   summary: Localized;
   bullets: LocalizedList;
-  shots: LocalizedList;
+  shots: Shot[];
+  links?: ProjectLink[];
 }
 
 export const projects: Project[] = [
@@ -152,88 +167,168 @@ export const projects: Project[] = [
     n: '01',
     title: 'Soldmate',
     year: '2026',
-    kind: { en: 'ERP for restaurant management', es: 'ERP para gestión de restaurantes' },
+    kind: {
+      en: 'multiplatform ERP for hospitality · final degree project',
+      es: 'ERP multiplataforma para hostelería · Trabajo de Fin de Grado',
+    },
     status: { en: 'in development', es: 'en desarrollo' },
-    roleLine: { en: 'design & development', es: 'diseño y desarrollo' },
-    stack: ['Java', 'Spring Boot', 'MySQL', 'REST API'],
+    roleLine: { en: 'solo project · design & development', es: 'proyecto individual · diseño y desarrollo' },
+    stack: ['Spring Boot', 'Next.js', 'PostgreSQL', 'Kotlin', 'JWT', 'Docker'],
     summary: {
-      en: 'An ERP built around how a restaurant actually runs — stock, suppliers, staff and daily sales in one system instead of four spreadsheets.',
-      es: 'Un ERP pensado desde cómo funciona un restaurante de verdad: stock, proveedores, personal y ventas diarias en un solo sistema en lugar de cuatro hojas de cálculo.',
+      en: 'An affordable ERP for small bars and restaurants: inventory, staff, incidents, POS and cash closing in one system. Web app plus a native Android build, with a weather API on the dashboard to anticipate a busy weekend.',
+      es: 'Un ERP asequible para bares y restaurantes pequeños: inventario, personal, incidencias, TPV y cierre de caja en un solo sistema. Aplicación web más build nativa de Android, con una API del clima en el panel para anticipar un fin de semana fuerte.',
     },
     bullets: {
       en: [
-        'Role-based access for owners, managers and floor staff',
-        'Inventory and supplier orders tied to daily sales',
-        'Data model designed from the workflow of a working kitchen',
+        'Spring Boot REST API with stateless JWT auth, BCrypt hashing and per-role authorization',
+        'Multi-tenant PostgreSQL: the company id travels inside the token, so each business only ever sees its own data',
+        'Next.js ERP with dashboard, inventory, POS, users, incidents, finances and an activity log',
+        'Native Android app (Kotlin WebView) for Play Store presence and a signed APK',
+        'Open-Meteo integration: the forecast on the dashboard helps plan stock and shifts',
       ],
       es: [
-        'Acceso por roles para propietarios, encargados y sala',
-        'Inventario y pedidos a proveedores ligados a la venta diaria',
-        'Modelo de datos diseñado desde la operativa real de una cocina',
+        'API REST en Spring Boot con autenticación JWT stateless, hash BCrypt y autorización por rol',
+        'PostgreSQL multi-tenant: el id de empresa viaja dentro del token, así cada negocio solo ve sus propios datos',
+        'ERP en Next.js con panel, inventario, TPV, usuarios, incidencias, finanzas y registro de actividad',
+        'App nativa de Android (Kotlin con WebView) para tener presencia en Play Store y APK firmada',
+        'Integración con Open-Meteo: el pronóstico en el panel ayuda a planificar stock y turnos',
       ],
     },
-    shots: {
-      en: ['soldmate — dashboard', 'soldmate — stock view'],
-      es: ['soldmate — panel', 'soldmate — inventario'],
-    },
+    shots: [
+      {
+        src: '/projects/soldmate/dashboard.webp',
+        kind: 'wide',
+        label: { en: 'dashboard with weather alerts', es: 'panel con alertas del clima' },
+      },
+      {
+        src: '/projects/soldmate/pos.webp',
+        kind: 'wide',
+        label: { en: 'POS — table order and checkout', es: 'TPV — comanda de mesa y cobro' },
+      },
+      {
+        src: '/projects/soldmate/login.webp',
+        kind: 'wide',
+        label: { en: 'login and business sign-up', es: 'login y alta de negocio' },
+      },
+      {
+        src: '/projects/soldmate/mobile.webp',
+        kind: 'tall',
+        label: { en: 'Android app', es: 'app de Android' },
+      },
+    ],
+    links: [
+      { label: 'soldmate.vercel.app', url: 'https://soldmate.vercel.app/' },
+      { label: 'github', url: 'https://github.com/matemudano99/soldmate' },
+      {
+        label: 'apk',
+        url: 'https://drive.google.com/file/d/1LKpU9S7RTyf_3sjByZSkT1G2DRPlya1o/view?usp=sharing',
+      },
+    ],
   },
   {
     n: '02',
     title: 'La Terracita Burger',
     year: '2025',
-    kind: { en: 'restaurant website with online shop', es: 'web de restaurante con tienda online' },
-    status: { en: 'live', es: 'en producción' },
-    roleLine: { en: 'solo project', es: 'proyecto individual' },
-    stack: ['HTML', 'CSS', 'JavaScript', 'Online shop'],
+    kind: {
+      en: 'website + online ordering system · two locations',
+      es: 'web y sistema de pedidos online · dos locales',
+    },
+    status: { en: 'live · used daily', es: 'en producción · en uso diario' },
+    roleLine: { en: 'solo full-stack project', es: 'proyecto full-stack individual' },
+    stack: ['React', 'Vite', 'Serverless', 'Supabase', 'PostgreSQL', 'MONEI'],
     summary: {
-      en: 'Public site and ordering shop for the restaurant I work at: menu, hours and takeaway orders without a delivery platform taking a cut.',
-      es: 'Web pública y tienda de pedidos del restaurante donde trabajo: carta, horarios y pedidos para llevar sin que una plataforma se lleve comisión.',
+      en: 'Delivery platforms charge 15–30% per order. This is the restaurant’s own ordering channel — real card payments, a live kitchen panel and a sales dashboard — so every order arrives commission-free.',
+      es: 'Las plataformas de delivery cobran un 15–30% por pedido. Este es el canal de pedidos propio del restaurante — pagos reales con tarjeta, panel de cocina en vivo y dashboard de ventas — para que cada pedido llegue sin comisiones.',
     },
     bullets: {
       en: [
-        'Menu and product catalogue editable without touching code',
-        'Order flow designed for phones first',
-        'Built for a real client with real constraints — my own workplace',
+        'Real payment gateway (card, Bizum, Apple & Google Pay) with verified webhook, server-side price recalculation and automatic refunds',
+        'Order stays invisible until payment is confirmed — the server re-queries the gateway, compares the amount and is idempotent',
+        'Live kitchen kanban: new → cooking → ready, sound alarm, 58 mm thermal ticket printing and instant sold-out toggles',
+        'Admin dashboard with revenue, average ticket, peak hours, top products, per-location breakdown and CSV export',
+        'Scheduled orders in the right timezone, delivery-zone check by geocoding and shareable order tracking',
+        'GDPR pages, anti-abuse limits and a ~68 KB gzip main bundle',
       ],
       es: [
-        'Carta y catálogo editables sin tocar código',
-        'Flujo de pedido diseñado primero para móvil',
-        'Hecho para un cliente real con límites reales: mi propio trabajo',
+        'Pasarela de pago real (tarjeta, Bizum, Apple y Google Pay) con webhook verificado, recálculo de precios en servidor y reembolsos automáticos',
+        'El pedido permanece invisible hasta confirmar el cobro — el servidor reconsulta la pasarela, compara el importe y es idempotente',
+        'Kanban de cocina en vivo: nuevos → en cocina → listas, alarma sonora, impresión de ticket térmico de 58 mm y agotados al instante',
+        'Panel de administración con ingresos, ticket medio, horas punta, top productos, desglose por local y export a CSV',
+        'Pedidos programados con zona horaria correcta, control de zona de reparto por geocodificación y seguimiento compartible',
+        'Páginas RGPD, protección anti-abuso y bundle principal de ~68 KB gzip',
       ],
     },
-    shots: {
-      en: ['terracita — home', 'terracita — order flow'],
-      es: ['terracita — inicio', 'terracita — pedido'],
-    },
+    shots: [
+      {
+        src: '/projects/terracita/order.webp',
+        kind: 'wide',
+        label: { en: 'ordering page — menu and cart', es: 'página de pedidos — carta y carrito' },
+      },
+      {
+        src: '/projects/terracita/dashboard.webp',
+        kind: 'wide',
+        label: { en: 'admin — sales dashboard', es: 'admin — dashboard de ventas' },
+      },
+      {
+        src: '/projects/terracita/hero.webp',
+        kind: 'wide',
+        label: { en: 'public site', es: 'web pública' },
+      },
+      {
+        src: '/projects/terracita/checkout.webp',
+        kind: 'tall',
+        label: { en: 'checkout on mobile', es: 'checkout en móvil' },
+      },
+    ],
+    links: [
+      { label: 'laterracitaburger.com', url: 'https://laterracitaburger.com' },
+      { label: 'pedir online', url: 'https://laterracitaburger.com/pedir' },
+      { label: 'github', url: 'https://github.com/matemudano99/la-terracita-burger' },
+    ],
   },
   {
     n: '03',
     title: 'Hospital Manager',
     year: '2025',
-    kind: { en: 'desktop CRUD system · team of 6', es: 'sistema CRUD de escritorio · equipo de 6' },
+    kind: { en: 'desktop management system · team of 6', es: 'sistema de gestión de escritorio · equipo de 6' },
     status: { en: 'course project', es: 'proyecto de curso' },
-    roleLine: { en: 'backend & database', es: 'backend y base de datos' },
+    roleLine: { en: 'logic & design', es: 'lógica y diseño' },
     stack: ['Java', 'Swing', 'MySQL', 'JDBC'],
     summary: {
-      en: 'Appointment, patient and staff management for a hospital, built as a six-person team over one term.',
-      es: 'Gestión de citas, pacientes y empleados de un hospital, desarrollada en equipo de seis personas durante un trimestre.',
+      en: 'Desktop application centralising the daily operations of a hospital: staff, patients, appointments and rooms, with the interface adapting to each professional profile.',
+      es: 'Aplicación de escritorio que centraliza la operativa diaria de un hospital: personal, pacientes, citas y salas, con la interfaz adaptándose a cada perfil profesional.',
     },
     bullets: {
       en: [
-        'RBAC access levels per staff role',
-        'Appointments, patients and employees as full CRUD modules',
-        'Git workflow across six contributors',
+        'Login with five role profiles — admin, administrative, doctor, nurse and maintenance — each with its own permissions and views',
+        'Patients and appointments: digital medical history, calendar of doctor availability and room assignment',
+        'Infrastructure module: operating theatres and consulting rooms, disinfection scheduling and occupancy stats',
+        'Requirements analysis, business logic and a user manual documented with screenshots',
       ],
       es: [
-        'Niveles de acceso RBAC según el rol del personal',
-        'Citas, pacientes y empleados como módulos CRUD completos',
-        'Flujo de trabajo con Git entre seis personas',
+        'Login con cinco perfiles de rol — administrador, administrativo, médico, enfermero y mantenimiento — cada uno con sus permisos y vistas',
+        'Pacientes y citas: historial médico digital, calendario de disponibilidad de médicos y asignación de habitaciones',
+        'Módulo de infraestructura: quirófanos y consultorios, programación de desinfección y estadísticas de ocupación',
+        'Análisis de requisitos, lógica de negocio y manual de uso documentado con capturas',
       ],
     },
-    shots: {
-      en: ['hospital — appointments', 'hospital — login / roles'],
-      es: ['hospital — citas', 'hospital — acceso / roles'],
-    },
+    shots: [
+      {
+        src: '/projects/hospital/menu.webp',
+        kind: 'wide',
+        label: { en: 'main menu by role', es: 'menú principal por rol' },
+      },
+      {
+        src: '/projects/hospital/patients.webp',
+        kind: 'wide',
+        label: { en: 'patient management', es: 'gestión de pacientes' },
+      },
+      {
+        src: '/projects/hospital/login.webp',
+        kind: 'wide',
+        label: { en: 'login with role selection', es: 'login con selección de rol' },
+      },
+    ],
   },
   {
     n: '04',
@@ -259,10 +354,7 @@ export const projects: Project[] = [
         'Versionado desde el primer commit',
       ],
     },
-    shots: {
-      en: ['clicker — main view', 'clicker — upgrades'],
-      es: ['clicker — vista principal', 'clicker — mejoras'],
-    },
+    shots: [],
   },
 ];
 
@@ -317,11 +409,17 @@ export interface SkillGroup {
 export const skillGroups: SkillGroup[] = [
   { label: { en: 'languages', es: 'lenguajes' }, items: ['Java', 'Python', 'SQL', 'JavaScript', 'Kotlin (basics)'] },
   { label: { en: 'backend', es: 'backend' }, items: ['Spring Boot', 'Hibernate', 'REST APIs', 'JDBC', 'MVC · OOP'] },
-  { label: { en: 'frontend', es: 'frontend' }, items: ['Java Swing / JavaFX', 'Angular', 'React', 'HTML · CSS'] },
-  { label: { en: 'data', es: 'datos' }, items: ['MySQL', 'MongoDB', 'Data modelling'] },
+  {
+    label: { en: 'frontend', es: 'frontend' },
+    items: ['React', 'Next.js', 'Angular', 'Java Swing / JavaFX', 'HTML · CSS'],
+  },
+  {
+    label: { en: 'data', es: 'datos' },
+    items: ['MySQL', 'PostgreSQL', 'Supabase', 'MongoDB', 'Data modelling'],
+  },
   {
     label: { en: 'tools', es: 'herramientas' },
-    items: ['Git · GitHub', 'IntelliJ IDEA', 'Android Studio', 'Odoo', 'VS Code · XAMPP'],
+    items: ['Git · GitHub', 'Docker', 'IntelliJ IDEA', 'Android Studio', 'Vercel', 'Odoo'],
   },
 ];
 

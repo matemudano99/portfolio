@@ -1,6 +1,12 @@
 import { C, ACCENT } from './theme';
-import type { Strings } from '../../data/portfolio';
+import type { ProjectLink, Strings } from '../../data/portfolio';
 import Reveal from '../react/Reveal';
+
+export interface ShotVM {
+  src: string;
+  kind: 'wide' | 'tall';
+  label: string;
+}
 
 export interface ProjectVM {
   n: string;
@@ -12,7 +18,8 @@ export interface ProjectVM {
   summary: string;
   bullets: string[];
   stack: string[];
-  shots: string[];
+  shots: ShotVM[];
+  links: ProjectLink[];
   isOpen: boolean;
   cta: string;
   barW: string;
@@ -22,27 +29,35 @@ export interface ProjectVM {
   onToggle: () => void;
 }
 
-const HATCH = 'repeating-linear-gradient(135deg,rgba(255,255,255,.045) 0 1px,transparent 1px 9px)';
-
-function Shot({ label }: { label: string }) {
+/** Captura real del proyecto, con su pie a modo de nombre de archivo. */
+function Shot({ shot }: { shot: ShotVM }) {
   return (
-    <div
+    <figure
       style={{
-        width: '100%',
+        margin: 0,
+        width: shot.kind === 'tall' ? 'min(58%,240px)' : '100%',
         minWidth: 0,
-        height: 'auto',
-        aspectRatio: '3/4',
-        border: `1px solid ${C.border2}`,
-        borderRadius: 4,
-        background: C.bg,
-        backgroundImage: HATCH,
         display: 'flex',
-        alignItems: 'flex-end',
-        padding: 11,
+        flexDirection: 'column',
+        gap: 6,
       }}
     >
-      <span style={{ fontSize: 10.5, lineHeight: 1.5, color: C.muted }}>{label}</span>
-    </div>
+      <img
+        src={shot.src}
+        alt={shot.label}
+        loading="lazy"
+        decoding="async"
+        style={{
+          width: '100%',
+          height: 'auto',
+          display: 'block',
+          border: `1px solid ${C.border2}`,
+          borderRadius: 4,
+          background: C.bg,
+        }}
+      />
+      <figcaption style={{ fontSize: 10.5, lineHeight: 1.5, color: C.muted }}>// {shot.label}</figcaption>
+    </figure>
   );
 }
 
@@ -201,21 +216,37 @@ export default function Work({ t, projects, onClearHover }: Props) {
                     <span style={{ color: ACCENT }}>● {p.status}</span>
                     <span style={{ color: C.muted }}>{p.roleLine}</span>
                   </div>
+                  {p.links.length > 0 && (
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                      {p.links.map((l) => (
+                        <a
+                          key={l.url}
+                          href={l.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="dc-linkbtn"
+                          style={{
+                            fontSize: 11.5,
+                            padding: '9px 12px',
+                            border: `1px solid ${C.border3}`,
+                            borderRadius: 3,
+                            background: C.bg,
+                          }}
+                        >
+                          {l.label} ↗
+                        </a>
+                      ))}
+                    </div>
+                  )}
                 </div>
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr',
-                    gap: 10,
-                    alignContent: 'start',
-                    alignItems: 'start',
-                    minWidth: 0,
-                  }}
-                >
-                  {p.shots.map((sh) => (
-                    <Shot key={sh} label={sh} />
-                  ))}
-                </div>
+                {p.shots.length > 0 && (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 14, minWidth: 0 }}>
+                    {p.shots.map((sh) => (
+                      <Shot key={sh.src} shot={sh} />
+                    ))}
+                  </div>
+                )}
               </div>
             )}
           </div>
