@@ -1,5 +1,6 @@
 import { C, ACCENT } from './theme';
 import type { Lang, Strings } from '../../data/portfolio';
+import LangToggle from './LangToggle';
 
 interface Props {
   t: Strings;
@@ -20,21 +21,6 @@ export default function StatusBar({
   paletteKey,
   onOpenPalette,
 }: Props) {
-  const langBtn = (code: Lang, label: string) => (
-    <button
-      onClick={() => setLang(code)}
-      style={{
-        fontSize: 11,
-        padding: '3px 6px',
-        borderRadius: 2,
-        background: lang === code ? 'rgba(255,255,255,.08)' : 'transparent',
-        color: lang === code ? ACCENT : C.muted,
-      }}
-    >
-      {label}
-    </button>
-  );
-
   return (
     <div
       style={{
@@ -77,10 +63,7 @@ export default function StatusBar({
           {paletteKey} <span style={{ color: C.dim }}>{t.paletteLabel}</span>
         </button>
         <span>Málaga, ES</span>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          {langBtn('en', 'EN')}
-          {langBtn('es', 'ES')}
-        </div>
+        <LangToggle lang={lang} setLang={setLang} />
       </div>
     </div>
   );

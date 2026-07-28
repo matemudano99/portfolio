@@ -9,6 +9,7 @@ export type LocalizedList = Record<Lang, string[]>;
 export interface Strings {
   role: string;
   navWork: string;
+  navExperience: string;
   navAbout: string;
   navContact: string;
   loc: string;
@@ -31,6 +32,8 @@ export interface Strings {
   heroLead: string;
   workLabel: string;
   workNote: string;
+  experienceLabel: string;
+  experienceNote: string;
   aboutLabel: string;
   skillsLabel: string;
   contactLabel: string;
@@ -48,6 +51,7 @@ export const strings: Record<Lang, Strings> = {
   en: {
     role: 'multiplatform app developer · full-stack',
     navWork: 'work',
+    navExperience: 'experience',
     navAbout: 'about',
     navContact: 'contact',
     loc: 'Málaga, Spain',
@@ -71,6 +75,8 @@ export const strings: Record<Lang, Strings> = {
       'Full-stack developer working across backend services, databases and the interfaces on top of them. Java and Python at the core.',
     workLabel: 'selected work',
     workNote: 'Two products in use, two study projects. Hover to preview, click to expand.',
+    experienceLabel: 'experience',
+    experienceNote: 'Where I have worked so far — real team, real deadlines.',
     aboutLabel: 'about',
     skillsLabel: 'stack',
     contactLabel: 'contact',
@@ -87,6 +93,7 @@ export const strings: Record<Lang, Strings> = {
   es: {
     role: 'desarrollador de aplicaciones multiplataforma · full-stack',
     navWork: 'proyectos',
+    navExperience: 'experiencia',
     navAbout: 'sobre mí',
     navContact: 'contacto',
     loc: 'Málaga, España',
@@ -110,6 +117,8 @@ export const strings: Record<Lang, Strings> = {
       'Desarrollador full-stack centrado en servicios backend, bases de datos y las interfaces que las usan. Java y Python como base.',
     workLabel: 'proyectos',
     workNote: 'Dos productos en uso y dos proyectos de estudios. Pasa el cursor para ver, pulsa para abrir.',
+    experienceLabel: 'experiencia',
+    experienceNote: 'Dónde he trabajado hasta ahora — equipo real, plazos reales.',
     aboutLabel: 'sobre mí',
     skillsLabel: 'stack',
     contactLabel: 'contacto',
@@ -254,6 +263,49 @@ export const projects: Project[] = [
       en: ['clicker — main view', 'clicker — upgrades'],
       es: ['clicker — vista principal', 'clicker — mejoras'],
     },
+  },
+];
+
+export interface Experience {
+  company: string;
+  role: Localized;
+  kind: Localized; // tipo: prácticas, junior, etc.
+  period: string; // año o rango
+  length: Localized; // duración legible
+  location: string;
+  summary: Localized;
+  bullets: LocalizedList;
+  stack: string[];
+}
+
+// TODO (Mateo): esto es un BORRADOR. Reemplaza summary, bullets y stack por lo
+// que hiciste realmente en Phonegest — tecnologías concretas, tareas, proyectos
+// en los que ayudaste. Ajusta también `location` y `period` si hace falta.
+export const experience: Experience[] = [
+  {
+    company: 'Phonegest',
+    role: { en: 'Development intern', es: 'Prácticas de desarrollo' },
+    kind: { en: 'internship · FCT', es: 'prácticas · FCT' },
+    period: '2024',
+    length: { en: '3 months', es: '3 meses' },
+    location: 'Málaga, ES',
+    summary: {
+      en: 'My first professional experience: three months inside a working development team, taking assigned tasks from idea to a tested, delivered feature.',
+      es: 'Mi primera experiencia profesional: tres meses dentro de un equipo de desarrollo real, llevando las tareas asignadas desde la idea hasta una funcionalidad probada y entregada.',
+    },
+    bullets: {
+      en: [
+        'Worked to a real team workflow — version control, tasks and code review',
+        'Turned assigned tickets into working, tested features',
+        'Learned how software is built and shipped outside the classroom',
+      ],
+      es: [
+        'Trabajé con el flujo de un equipo real — control de versiones, tareas y revisión de código',
+        'Convertí las tareas asignadas en funcionalidades probadas y funcionando',
+        'Aprendí cómo se construye y se entrega software fuera del aula',
+      ],
+    },
+    stack: ['Git', 'Teamwork'],
   },
 ];
 

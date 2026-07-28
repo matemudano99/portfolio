@@ -3,6 +3,7 @@ import { C, ACCENT } from './theme';
 const TABS = [
   { id: 'top', label: 'index.kt', diamond: C.yellow },
   { id: 'work', label: 'projects.json', diamond: C.green },
+  { id: 'experience', label: 'career.log', diamond: C.orange },
   { id: 'about', label: 'about.md', diamond: C.blue },
   { id: 'contact', label: 'contact.txt', diamond: C.purple },
 ] as const;

@@ -14,6 +14,7 @@ import TabBar from './TabBar';
 import StatusBar from './StatusBar';
 import Hero from './Hero';
 import Work, { type ProjectVM } from './Work';
+import Experience from './Experience';
 import About from './About';
 import Contact from './Contact';
 import CommandPalette, { type CommandVM } from './CommandPalette';
@@ -108,7 +109,7 @@ export default function Portfolio() {
 
   // --- scroll spy: marca la pestaña activa ---
   useEffect(() => {
-    const secs = ['top', 'work', 'about', 'contact']
+    const secs = ['top', 'work', 'experience', 'about', 'contact']
       .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => Boolean(el));
     const spy = new IntersectionObserver(
@@ -188,6 +189,7 @@ export default function Portfolio() {
     const nav = [
       { id: 'top', name: 'index.kt', alt: '' },
       { id: 'work', name: t.navWork, alt: 'work projects proyectos' },
+      { id: 'experience', name: t.navExperience, alt: 'experience experiencia career carrera job phonegest' },
       { id: 'about', name: t.navAbout, alt: 'about sobre bio stack' },
       { id: 'contact', name: t.navContact, alt: 'contact contacto email' },
     ].map((s) => ({
@@ -315,6 +317,7 @@ export default function Portfolio() {
 
       <Hero t={t} lineRef={lineRef} onMove={onHeroMove} onLeave={onHeroLeave} />
       <Work t={t} projects={projectVMs} onClearHover={() => setHovered(null)} />
+      <Experience t={t} lang={lang} />
       <About t={t} lang={lang} />
       <Contact t={t} />
 
