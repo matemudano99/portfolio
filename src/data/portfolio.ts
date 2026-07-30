@@ -74,7 +74,7 @@ export const strings: Record<Lang, Strings> = {
     heroLead:
       'Full-stack developer working across backend services, databases and the interfaces on top of them. Java and Python at the core.',
     workLabel: 'selected work',
-    workNote: 'Two real-world products, two study projects. Hover to preview, click to expand.',
+    workNote: 'Two real-world products and one study project. Hover to preview, click to expand.',
     experienceLabel: 'experience',
     experienceNote: 'Where I have worked so far — real team, real deadlines.',
     aboutLabel: 'about',
@@ -116,7 +116,7 @@ export const strings: Record<Lang, Strings> = {
     heroLead:
       'Desarrollador full-stack centrado en servicios backend, bases de datos y las interfaces que las usan. Java y Python como base.',
     workLabel: 'proyectos',
-    workNote: 'Dos productos reales y dos proyectos de estudios. Pasa el cursor para ver, pulsa para abrir.',
+    workNote: 'Dos productos reales y un proyecto de estudios. Pasa el cursor para ver, pulsa para abrir.',
     experienceLabel: 'experiencia',
     experienceNote: 'Dónde he trabajado hasta ahora — equipo real, plazos reales.',
     aboutLabel: 'sobre mí',
@@ -329,32 +329,6 @@ export const projects: Project[] = [
         label: { en: 'login with role selection', es: 'login con selección de rol' },
       },
     ],
-  },
-  {
-    n: '04',
-    title: 'Clicker Game',
-    year: '2024',
-    kind: { en: 'individual project · Python & Tkinter', es: 'proyecto individual · Python y Tkinter' },
-    status: { en: 'finished', es: 'terminado' },
-    roleLine: { en: 'solo project', es: 'proyecto individual' },
-    stack: ['Python', 'Tkinter', 'MVC', 'Git'],
-    summary: {
-      en: 'A small incremental game written to practise strict MVC separation and version control on my own.',
-      es: 'Un pequeño juego incremental escrito para practicar separación MVC estricta y control de versiones por mi cuenta.',
-    },
-    bullets: {
-      en: [
-        'Model, view and controller kept strictly separate',
-        'State saved between sessions',
-        'Versioned from the first commit',
-      ],
-      es: [
-        'Modelo, vista y controlador estrictamente separados',
-        'Estado guardado entre sesiones',
-        'Versionado desde el primer commit',
-      ],
-    },
-    shots: [],
   },
 ];
 

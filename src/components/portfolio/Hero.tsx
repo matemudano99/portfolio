@@ -157,7 +157,7 @@ export default function Hero({ t, lineRef, onMove, onLeave }: Props) {
             <span style={{ color: C.green }}>"Python"</span>, <span style={{ color: C.green }}>"MySQL"</span>),
           </CodeLine>
           <CodeLine n="5">
-            &nbsp;&nbsp;shipped = <span style={{ color: C.orange }}>4</span>,
+            &nbsp;&nbsp;shipped = <span style={{ color: C.orange }}>3</span>,
           </CodeLine>
           <CodeLine n="6">
             &nbsp;&nbsp;openTo = <span style={{ color: C.green }}>"{t.codeOpen}"</span>
