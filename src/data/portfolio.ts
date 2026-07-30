@@ -228,7 +228,7 @@ export const projects: Project[] = [
   {
     n: '02',
     title: 'La Terracita Burger',
-    year: '2025',
+    year: '2026',
     kind: {
       en: 'website + online ordering system · two locations',
       es: 'web y sistema de pedidos online · dos locales',
