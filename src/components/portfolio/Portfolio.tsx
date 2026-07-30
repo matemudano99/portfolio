@@ -344,6 +344,8 @@ export default function Portfolio() {
               style={{
                 width: '100%',
                 height: 'auto',
+                maxHeight: '38vh',
+                objectFit: 'contain',
                 display: 'block',
                 border: `1px solid rgba(255,255,255,.14)`,
                 borderRadius: 4,

@@ -48,6 +48,12 @@ button {
   color: var(--a);
 }
 
+/* Flechas del visor de capturas */
+.dc-shot-arrow:hover {
+  border-color: var(--a);
+  color: var(--a);
+}
+
 @keyframes dc-roll {
   0%,
   26% {

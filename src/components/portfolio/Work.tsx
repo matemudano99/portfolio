@@ -1,6 +1,7 @@
 import { C, ACCENT } from './theme';
 import type { ProjectLink, Strings } from '../../data/portfolio';
 import Reveal from '../react/Reveal';
+import ShotCarousel from './ShotCarousel';
 
 export interface ShotVM {
   src: string;
@@ -29,37 +30,6 @@ export interface ProjectVM {
   onToggle: () => void;
 }
 
-/** Captura real del proyecto, con su pie a modo de nombre de archivo. */
-function Shot({ shot }: { shot: ShotVM }) {
-  return (
-    <figure
-      style={{
-        margin: 0,
-        width: shot.kind === 'tall' ? 'min(58%,240px)' : '100%',
-        minWidth: 0,
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 6,
-      }}
-    >
-      <img
-        src={shot.src}
-        alt={shot.label}
-        loading="lazy"
-        decoding="async"
-        style={{
-          width: '100%',
-          height: 'auto',
-          display: 'block',
-          border: `1px solid ${C.border2}`,
-          borderRadius: 4,
-          background: C.bg,
-        }}
-      />
-      <figcaption style={{ fontSize: 10.5, lineHeight: 1.5, color: C.muted }}>// {shot.label}</figcaption>
-    </figure>
-  );
-}
 
 interface Props {
   t: Strings;
@@ -240,13 +210,7 @@ export default function Work({ t, projects, onClearHover }: Props) {
                     </div>
                   )}
                 </div>
-                {p.shots.length > 0 && (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 14, minWidth: 0 }}>
-                    {p.shots.map((sh) => (
-                      <Shot key={sh.src} shot={sh} />
-                    ))}
-                  </div>
-                )}
+                {p.shots.length > 0 && <ShotCarousel key={p.n} shots={p.shots} />}
               </div>
             )}
           </div>
