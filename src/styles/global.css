@@ -144,6 +144,108 @@ button {
   color: var(--a);
 }
 
+/* --- Contacto --- */
+
+.dc-contact {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(28px, 4vw, 48px);
+  align-items: start;
+}
+
+@media (min-width: 860px) {
+  .dc-contact {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr);
+    gap: clamp(36px, 5vw, 72px);
+  }
+}
+
+/* Botón principal: la acción que quiero que se pulse */
+.dc-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border-radius: 3px;
+  background: var(--a);
+  color: #0b0d12;
+  font-size: 12.5px;
+  font-weight: 700;
+  transition:
+    filter 0.25s ease,
+    transform 0.25s ease;
+}
+
+.dc-cta:hover {
+  color: #0b0d12;
+  filter: brightness(1.12);
+  transform: translateY(-1px);
+}
+
+.dc-cta-ghost {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 16px;
+  font-size: 12.5px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 3px;
+  background: #0b0d12;
+}
+
+/* Filas de contact.txt */
+.dc-crow {
+  display: grid;
+  grid-template-columns: 34px 74px minmax(0, 1fr) 28px;
+  gap: 10px;
+  align-items: center;
+  padding: 7px 12px 7px 0;
+  transition: background-color 0.2s ease;
+}
+
+.dc-crow:hover {
+  background: rgba(255, 255, 255, 0.025);
+}
+
+@media (max-width: 420px) {
+  .dc-crow {
+    grid-template-columns: 24px 62px minmax(0, 1fr) 26px;
+    gap: 8px;
+  }
+}
+
+.dc-copy {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  color: #5f6673;
+  font-size: 12px;
+  opacity: 0;
+  transition:
+    opacity 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.dc-crow:hover .dc-copy,
+.dc-copy:focus-visible {
+  opacity: 1;
+}
+
+.dc-copy:hover {
+  color: var(--a);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+/* En táctil no hay hover: el botón de copiar siempre visible */
+@media (hover: none) {
+  .dc-copy {
+    opacity: 1;
+  }
+}
+
 @keyframes dc-roll {
   0%,
   26% {

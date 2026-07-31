@@ -38,7 +38,10 @@ export interface Strings {
   aboutLabel: string;
   skillsLabel: string;
   contactLabel: string;
+  contactTitle: string;
   contactLead: string;
+  ctaEmail: string;
+  copyLabel: string;
   cv: string;
   builtWith: string;
   bio1: string;
@@ -82,8 +85,11 @@ export const strings: Record<Lang, Strings> = {
     aboutLabel: 'about',
     skillsLabel: 'stack',
     contactLabel: 'contact',
+    contactTitle: "Let's talk.",
     contactLead:
-      'Looking for a first role or internship as a developer — Málaga, remote or hybrid.',
+      'Looking for a first role or internship as a developer — Málaga, remote or hybrid. I read every message and reply the same day.',
+    ctaEmail: 'write to me',
+    copyLabel: 'copy',
     cv: 'cv.pdf',
     builtWith: 'hand-written HTML · no template',
     bio1: 'I am a multiplatform application developer based in Málaga, finishing a Higher Technician degree in Application Development at Digitech FP.',
@@ -125,8 +131,11 @@ export const strings: Record<Lang, Strings> = {
     aboutLabel: 'sobre mí',
     skillsLabel: 'stack',
     contactLabel: 'contacto',
+    contactTitle: '¿Hablamos?',
     contactLead:
-      'Busco una primera oportunidad o prácticas en un equipo de desarrollo — Málaga, remoto o híbrido.',
+      'Busco una primera oportunidad o prácticas en un equipo de desarrollo — Málaga, remoto o híbrido. Leo todos los mensajes y respondo el mismo día.',
+    ctaEmail: 'escríbeme',
+    copyLabel: 'copiar',
     cv: 'cv.pdf',
     builtWith: 'HTML escrito a mano · sin plantilla',
     bio1: 'Soy desarrollador de aplicaciones multiplataforma en Málaga, terminando el Técnico Superior en Desarrollo de Aplicaciones en Digitech FP.',
