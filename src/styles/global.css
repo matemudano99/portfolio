@@ -48,43 +48,100 @@ button {
   color: var(--a);
 }
 
-/* Galería de capturas */
-.dc-shot:hover {
-  border-color: var(--a);
-  transform: translateY(-2px);
+/* --- Panel de proyecto: texto y galería --- */
+
+/* Móvil primero: una sola columna, la galería debajo del texto. */
+.dc-detail {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(20px, 3vw, 34px);
+  min-width: 0;
 }
 
-.dc-shot:hover .dc-shot-cap,
-.dc-shot:focus-visible .dc-shot-cap {
+/* A partir de tablet: texto a la izquierda y galería (más ancha) a la derecha. */
+@media (min-width: 900px) {
+  .dc-detail {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    gap: clamp(24px, 3vw, 48px);
+    align-items: start;
+  }
+}
+
+/* Captura principal: marco estable, la imagen entra entera sin recortes. */
+.dc-gallery-main {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  background-color: #0b0d12;
+  background-image: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 9px);
+  overflow: hidden;
+  cursor: zoom-in;
+  transition: border-color 0.25s ease;
+}
+
+.dc-gallery-main:hover {
+  border-color: var(--a);
+}
+
+/* Indicador de ampliar, esquina superior derecha */
+.dc-gallery-zoom {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(11, 13, 18, 0.72);
+  color: #a8b0bf;
+  font-size: 11px;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.dc-gallery-main:hover .dc-gallery-zoom,
+.dc-gallery-main:focus-visible .dc-gallery-zoom {
   opacity: 1;
+}
+
+/* Miniaturas: se reparten en filas, nunca fuerzan scroll horizontal. */
+.dc-thumbs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(62px, 1fr));
+  gap: 6px;
+}
+
+.dc-thumb {
+  height: 46px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+  background: #0b0d12;
+  opacity: 0.5;
+  cursor: pointer;
+  transition:
+    opacity 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.dc-thumb:hover {
+  opacity: 0.85;
+}
+
+.dc-thumb[data-active='true'] {
+  opacity: 1;
+  border-color: var(--a);
 }
 
 .dc-shot-nav:hover {
   border-color: var(--a);
   color: var(--a);
-}
-
-/* Tira horizontal: barra de scroll discreta y acorde al tema */
-.dc-strip {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
-}
-
-.dc-strip::-webkit-scrollbar {
-  height: 6px;
-}
-
-.dc-strip::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.dc-strip::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.16);
-  border-radius: 3px;
-}
-
-.dc-strip::-webkit-scrollbar-thumb:hover {
-  background: var(--a);
 }
 
 @keyframes dc-roll {

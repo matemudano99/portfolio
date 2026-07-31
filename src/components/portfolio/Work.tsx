@@ -127,20 +127,15 @@ export default function Work({ t, projects, onClearHover }: Props) {
 
             {p.isOpen && (
               <div
-                style={{
-                  padding: '0 clamp(14px,3vw,40px) clamp(26px,4vw,50px)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 'clamp(18px,2.6vw,30px)',
-                  minWidth: 0,
-                }}
+                className="dc-detail"
+                style={{ padding: '0 clamp(14px,3vw,40px) clamp(26px,4vw,50px)' }}
               >
                 <div
                   style={{
                     display: 'flex',
                     flexDirection: 'column',
                     gap: 'clamp(16px,2.2vw,24px)',
-                    maxWidth: '76ch',
+                    minWidth: 0,
                   }}
                 >
                   <p style={{ margin: 0, maxWidth: '48ch', fontSize: 14, lineHeight: 1.7, color: C.sub, textWrap: 'pretty' }}>

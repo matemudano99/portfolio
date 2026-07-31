@@ -4,21 +4,31 @@ import { C } from './theme';
 import type { ShotVM } from './Work';
 
 /**
- * Galería de capturas: tira horizontal con varias visibles a la vez, todas a
- * la misma altura y con su proporción real (nada de recortes ni marcos vacíos).
- * Al pulsar una se abre a tamaño grande sobre la página.
+ * Galería estilo ficha de producto: una captura grande seleccionada y una fila
+ * de miniaturas debajo. Al pulsar la grande se abre a pantalla completa, donde
+ * se puede hacer zoom y desplazarse por la imagen.
  */
 export default function ShotGallery({ shots, hint }: { shots: ShotVM[]; hint: string }) {
-  const [open, setOpen] = useState<number | null>(null);
+  const [i, setI] = useState(0);
+  const [lightbox, setLightbox] = useState(false);
+  const [zoom, setZoom] = useState(false);
   const total = shots.length;
+  const active = shots[Math.min(i, total - 1)];
 
-  // Teclado del visor ampliado + bloqueo del scroll de fondo.
+  const step = (d: number) => {
+    setI((n) => (n + d + total) % total);
+    setZoom(false);
+  };
+
+  // Teclado del visor + bloqueo del scroll de fondo mientras está abierto.
   useEffect(() => {
-    if (open === null) return;
+    if (!lightbox) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(null);
-      else if (e.key === 'ArrowRight') setOpen((i) => (i === null ? i : (i + 1) % total));
-      else if (e.key === 'ArrowLeft') setOpen((i) => (i === null ? i : (i - 1 + total) % total));
+      if (e.key === 'Escape') {
+        if (zoom) setZoom(false);
+        else setLightbox(false);
+      } else if (e.key === 'ArrowRight') step(1);
+      else if (e.key === 'ArrowLeft') step(-1);
     };
     window.addEventListener('keydown', onKey);
     const prev = document.body.style.overflow;
@@ -27,150 +37,170 @@ export default function ShotGallery({ shots, hint }: { shots: ShotVM[]; hint: st
       window.removeEventListener('keydown', onKey);
       document.body.style.overflow = prev;
     };
-  }, [open, total]);
+  }, [lightbox, zoom, total]);
 
   if (total === 0) return null;
-  const current = open === null ? null : shots[open];
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, minWidth: 0, alignSelf: 'start' }}>
-      {/* tira horizontal */}
-      <div
-        className="dc-strip"
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 10, minWidth: 0 }}>
+      {/* captura grande */}
+      <button
+        type="button"
+        className="dc-gallery-main"
+        aria-label={active.label}
+        onClick={(e) => {
+          e.stopPropagation();
+          setLightbox(true);
+        }}
         style={{
-          display: 'flex',
-          gap: 8,
-          overflowX: 'auto',
-          overflowY: 'hidden',
-          paddingBottom: 6,
-          scrollSnapType: 'x proximity',
+          // El marco toma la proporción de la captura activa (nada de bandas
+          // vacías en las apaisadas) y se limita en alto para las verticales.
+          aspectRatio: `${active.w} / ${active.h}`,
+          maxHeight: 'clamp(230px,42vh,430px)',
         }}
       >
-        {shots.map((s, i) => (
-          <button
+        {shots.map((s, idx) => (
+          <img
             key={s.src}
-            type="button"
-            className="dc-shot"
-            aria-label={s.label}
-            onClick={(e) => {
-              e.stopPropagation();
-              setOpen(i);
-            }}
+            src={s.src}
+            alt={idx === i ? s.label : ''}
+            width={s.w}
+            height={s.h}
+            decoding="async"
             style={{
-              position: 'relative',
-              flex: '0 0 auto',
-              height: 'clamp(132px,15vw,180px)',
-              aspectRatio: `${s.w} / ${s.h}`,
-              padding: 0,
-              border: `1px solid ${C.border2}`,
-              borderRadius: 4,
-              overflow: 'hidden',
-              background: C.bg,
-              cursor: 'zoom-in',
-              scrollSnapAlign: 'start',
-              transition: 'border-color .25s ease, transform .35s cubic-bezier(.16,1,.3,1)',
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+              opacity: idx === i ? 1 : 0,
+              transition: 'opacity .3s ease',
             }}
-          >
-            <img
-              src={s.src}
-              alt={s.label}
-              width={s.w}
-              height={s.h}
-              decoding="async"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-            />
-            <span
-              className="dc-shot-cap"
-              style={{
-                position: 'absolute',
-                left: 0,
-                right: 0,
-                bottom: 0,
-                padding: '14px 8px 6px',
-                fontSize: 10,
-                lineHeight: 1.35,
-                textAlign: 'left',
-                color: C.text,
-                background: 'linear-gradient(to top,rgba(8,10,14,.94),rgba(8,10,14,0))',
-                opacity: 0,
-                transition: 'opacity .25s ease',
-                pointerEvents: 'none',
-              }}
-            >
-              {s.label}
-            </span>
-          </button>
+          />
         ))}
+        <span className="dc-gallery-zoom" aria-hidden="true">
+          ⤢
+        </span>
+      </button>
+
+      {/* pie + contador */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
+        <span
+          style={{
+            fontSize: 10.5,
+            lineHeight: 1.5,
+            color: C.muted,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          // {active.label}
+        </span>
+        <span style={{ fontSize: 10.5, color: C.dim, flexShrink: 0 }}>
+          {String(i + 1).padStart(2, '0')}/{String(total).padStart(2, '0')}
+        </span>
       </div>
 
-      <span style={{ fontSize: 10.5, lineHeight: 1.5, color: C.muted }}>
-        // {total} {hint}
-      </span>
+      {/* miniaturas */}
+      {total > 1 && (
+        <div className="dc-thumbs">
+          {shots.map((s, idx) => (
+            <button
+              key={s.src}
+              type="button"
+              className="dc-thumb"
+              aria-label={s.label}
+              aria-current={idx === i}
+              data-active={idx === i ? 'true' : undefined}
+              onClick={(e) => {
+                e.stopPropagation();
+                setI(idx);
+              }}
+            >
+              <img
+                src={s.src}
+                alt=""
+                width={s.w}
+                height={s.h}
+                decoding="async"
+                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', display: 'block' }}
+              />
+            </button>
+          ))}
+        </div>
+      )}
 
-      {/* visor ampliado */}
-      {current && (
+      <span style={{ fontSize: 10.5, color: C.dim }}>// {hint}</span>
+
+      {/* visor a pantalla completa con zoom */}
+      {lightbox && (
         <div
-          onClick={() => setOpen(null)}
+          onClick={() => setLightbox(false)}
           style={{
             position: 'fixed',
             inset: 0,
             zIndex: 95,
-            background: 'rgba(5,6,9,.9)',
+            background: 'rgba(5,6,9,.93)',
             backdropFilter: 'blur(4px)',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: 14,
-            padding: 'clamp(16px,4vw,44px)',
-            cursor: 'zoom-out',
+            gap: 12,
+            padding: 'clamp(12px,3vw,36px)',
           }}
         >
-          <img
-            src={current.src}
-            alt={current.label}
-            onClick={(e) => e.stopPropagation()}
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+              setZoom((z) => !z);
+            }}
             style={{
               maxWidth: '100%',
-              maxHeight: '76vh',
-              objectFit: 'contain',
+              maxHeight: '78vh',
+              overflow: zoom ? 'auto' : 'hidden',
+              cursor: zoom ? 'zoom-out' : 'zoom-in',
               border: `1px solid ${C.border3}`,
               borderRadius: 4,
-              cursor: 'default',
+              background: C.bg,
+              WebkitOverflowScrolling: 'touch',
             }}
-          />
+          >
+            <img
+              src={active.src}
+              alt={active.label}
+              style={{
+                display: 'block',
+                width: zoom ? `${Math.max(active.w, 1600)}px` : 'auto',
+                maxWidth: zoom ? 'none' : '100%',
+                maxHeight: zoom ? 'none' : '78vh',
+                height: 'auto',
+                margin: '0 auto',
+              }}
+            />
+          </div>
+
           <div
             onClick={(e) => e.stopPropagation()}
-            style={{ display: 'flex', alignItems: 'center', gap: 16, fontSize: 11.5, cursor: 'default' }}
+            style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 11.5, flexWrap: 'wrap', justifyContent: 'center' }}
           >
             {total > 1 && (
-              <button
-                type="button"
-                aria-label="previous"
-                className="dc-shot-nav"
-                onClick={() => setOpen((i) => (i === null ? i : (i - 1 + total) % total))}
-                style={navStyle}
-              >
+              <button type="button" aria-label="previous" className="dc-shot-nav" onClick={() => step(-1)} style={navStyle}>
                 ‹
               </button>
             )}
-            <span style={{ color: C.sub }}>{current.label}</span>
+            <span style={{ color: C.sub }}>{active.label}</span>
             <span style={{ color: C.dim }}>
-              {String((open ?? 0) + 1).padStart(2, '0')}/{String(total).padStart(2, '0')}
+              {String(i + 1).padStart(2, '0')}/{String(total).padStart(2, '0')}
             </span>
             {total > 1 && (
-              <button
-                type="button"
-                aria-label="next"
-                className="dc-shot-nav"
-                onClick={() => setOpen((i) => (i === null ? i : (i + 1) % total))}
-                style={navStyle}
-              >
+              <button type="button" aria-label="next" className="dc-shot-nav" onClick={() => step(1)} style={navStyle}>
                 ›
               </button>
             )}
           </div>
-          <span style={{ fontSize: 10.5, color: C.dim }}>esc</span>
+          <span style={{ fontSize: 10.5, color: C.dim }}>{zoom ? '100% · esc' : 'zoom · esc'}</span>
         </div>
       )}
     </div>
