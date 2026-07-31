@@ -32,6 +32,7 @@ export interface Strings {
   heroLead: string;
   workLabel: string;
   workNote: string;
+  shotsHint: string;
   experienceLabel: string;
   experienceNote: string;
   aboutLabel: string;
@@ -75,6 +76,7 @@ export const strings: Record<Lang, Strings> = {
       'Full-stack developer working across backend services, databases and the interfaces on top of them. Java and Python at the core.',
     workLabel: 'selected work',
     workNote: 'Two real-world products and one study project. Hover to preview, click to expand.',
+    shotsHint: 'screenshots · click to enlarge',
     experienceLabel: 'experience',
     experienceNote: 'Where I have worked so far — real team, real deadlines.',
     aboutLabel: 'about',
@@ -117,6 +119,7 @@ export const strings: Record<Lang, Strings> = {
       'Desarrollador full-stack centrado en servicios backend, bases de datos y las interfaces que las usan. Java y Python como base.',
     workLabel: 'proyectos',
     workNote: 'Dos productos reales y un proyecto de estudios. Pasa el cursor para ver, pulsa para abrir.',
+    shotsHint: 'capturas · pulsa para ampliar',
     experienceLabel: 'experiencia',
     experienceNote: 'Dónde he trabajado hasta ahora — equipo real, plazos reales.',
     aboutLabel: 'sobre mí',
@@ -140,6 +143,9 @@ export type ShotKind = 'wide' | 'tall';
 export interface Shot {
   src: string;
   kind: ShotKind;
+  /** Dimensiones reales del archivo: la galería reserva el hueco exacto y evita saltos. */
+  w: number;
+  h: number;
   label: Localized;
 }
 
@@ -198,21 +204,29 @@ export const projects: Project[] = [
       {
         src: '/projects/soldmate/dashboard.webp',
         kind: 'wide',
+        w: 1240,
+        h: 630,
         label: { en: 'dashboard with weather alerts', es: 'panel con alertas del clima' },
       },
       {
         src: '/projects/soldmate/pos.webp',
         kind: 'wide',
+        w: 1240,
+        h: 631,
         label: { en: 'POS — table order and checkout', es: 'TPV — comanda de mesa y cobro' },
       },
       {
         src: '/projects/soldmate/login.webp',
         kind: 'wide',
+        w: 1240,
+        h: 589,
         label: { en: 'login and business sign-up', es: 'login y alta de negocio' },
       },
       {
         src: '/projects/soldmate/mobile.webp',
         kind: 'tall',
+        w: 491,
+        h: 880,
         label: { en: 'Android app', es: 'app de Android' },
       },
     ],
@@ -262,21 +276,29 @@ export const projects: Project[] = [
       {
         src: '/projects/terracita/order.webp',
         kind: 'wide',
+        w: 1031,
+        h: 833,
         label: { en: 'ordering page — menu and cart', es: 'página de pedidos — carta y carrito' },
       },
       {
         src: '/projects/terracita/dashboard.webp',
         kind: 'wide',
+        w: 1103,
+        h: 483,
         label: { en: 'admin — sales dashboard', es: 'admin — dashboard de ventas' },
       },
       {
         src: '/projects/terracita/hero.webp',
         kind: 'wide',
+        w: 816,
+        h: 883,
         label: { en: 'public site', es: 'web pública' },
       },
       {
         src: '/projects/terracita/checkout.webp',
         kind: 'tall',
+        w: 399,
+        h: 878,
         label: { en: 'checkout on mobile', es: 'checkout en móvil' },
       },
     ],
@@ -316,16 +338,22 @@ export const projects: Project[] = [
       {
         src: '/projects/hospital/menu.webp',
         kind: 'wide',
+        w: 596,
+        h: 422,
         label: { en: 'main menu by role', es: 'menú principal por rol' },
       },
       {
         src: '/projects/hospital/patients.webp',
         kind: 'wide',
+        w: 593,
+        h: 393,
         label: { en: 'patient management', es: 'gestión de pacientes' },
       },
       {
         src: '/projects/hospital/login.webp',
         kind: 'wide',
+        w: 597,
+        h: 447,
         label: { en: 'login with role selection', es: 'login con selección de rol' },
       },
     ],

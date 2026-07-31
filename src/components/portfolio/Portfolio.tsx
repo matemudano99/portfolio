@@ -168,7 +168,7 @@ export default function Portfolio() {
       summary: p.summary[lang],
       bullets: p.bullets[lang],
       stack: p.stack,
-      shots: p.shots.map((s) => ({ src: s.src, kind: s.kind, label: s.label[lang] })),
+      shots: p.shots.map((s) => ({ src: s.src, kind: s.kind, w: s.w, h: s.h, label: s.label[lang] })),
       links: p.links ?? [],
       isOpen,
       cta: isOpen ? `— ${t.close}` : `+ ${t.open}`,

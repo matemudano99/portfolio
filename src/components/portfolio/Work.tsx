@@ -1,11 +1,13 @@
 import { C, ACCENT } from './theme';
 import type { ProjectLink, Strings } from '../../data/portfolio';
 import Reveal from '../react/Reveal';
-import ShotCarousel from './ShotCarousel';
+import ShotGallery from './ShotGallery';
 
 export interface ShotVM {
   src: string;
   kind: 'wide' | 'tall';
+  w: number;
+  h: number;
   label: string;
 }
 
@@ -127,12 +129,20 @@ export default function Work({ t, projects, onClearHover }: Props) {
               <div
                 style={{
                   padding: '0 clamp(14px,3vw,40px) clamp(26px,4vw,50px)',
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))',
-                  gap: 'clamp(18px,3vw,44px)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 'clamp(18px,2.6vw,30px)',
+                  minWidth: 0,
                 }}
               >
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(16px,2.2vw,24px)' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 'clamp(16px,2.2vw,24px)',
+                    maxWidth: '76ch',
+                  }}
+                >
                   <p style={{ margin: 0, maxWidth: '48ch', fontSize: 14, lineHeight: 1.7, color: C.sub, textWrap: 'pretty' }}>
                     {p.summary}
                   </p>
@@ -210,7 +220,7 @@ export default function Work({ t, projects, onClearHover }: Props) {
                     </div>
                   )}
                 </div>
-                {p.shots.length > 0 && <ShotCarousel key={p.n} shots={p.shots} />}
+                {p.shots.length > 0 && <ShotGallery key={p.n} shots={p.shots} hint={t.shotsHint} />}
               </div>
             )}
           </div>
