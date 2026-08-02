@@ -188,7 +188,7 @@ export const projects: Project[] = [
     },
     status: { en: 'in development', es: 'en desarrollo' },
     roleLine: { en: 'solo project · design & development', es: 'proyecto individual · diseño y desarrollo' },
-    stack: ['Spring Boot', 'Next.js', 'PostgreSQL', 'Kotlin', 'JWT', 'Docker'],
+    stack: ['Spring Boot', 'Next.js', 'PostgreSQL', 'Kotlin', 'JWT', 'Mockito', 'Docker'],
     summary: {
       en: 'An affordable ERP for small bars and restaurants: inventory, staff, incidents, POS and cash closing in one system. Web app plus a native Android build, with a weather API on the dashboard to anticipate a busy weekend.',
       es: 'Un ERP asequible para bares y restaurantes pequeños: inventario, personal, incidencias, TPV y cierre de caja en un solo sistema. Aplicación web más build nativa de Android, con una API del clima en el panel para anticipar un fin de semana fuerte.',
@@ -200,6 +200,7 @@ export const projects: Project[] = [
         'Next.js ERP with dashboard, inventory, POS, users, incidents, finances and an activity log',
         'Native Android app (Kotlin WebView) for Play Store presence and a signed APK',
         'Open-Meteo integration: the forecast on the dashboard helps plan stock and shifts',
+        'Unit tests on the service layer with Mockito',
       ],
       es: [
         'API REST en Spring Boot con autenticación JWT stateless, hash BCrypt y autorización por rol',
@@ -207,6 +208,7 @@ export const projects: Project[] = [
         'ERP en Next.js con panel, inventario, TPV, usuarios, incidencias, finanzas y registro de actividad',
         'App nativa de Android (Kotlin con WebView) para tener presencia en Play Store y APK firmada',
         'Integración con Open-Meteo: el pronóstico en el panel ayuda a planificar stock y turnos',
+        'Tests unitarios de la capa de servicios con Mockito',
       ],
     },
     shots: [
@@ -419,7 +421,10 @@ export interface SkillGroup {
 
 export const skillGroups: SkillGroup[] = [
   { label: { en: 'languages', es: 'lenguajes' }, items: ['Java', 'Python', 'SQL', 'JavaScript', 'Kotlin (basics)'] },
-  { label: { en: 'backend', es: 'backend' }, items: ['Spring Boot', 'Hibernate', 'REST APIs', 'JDBC', 'MVC · OOP'] },
+  {
+    label: { en: 'backend', es: 'backend' },
+    items: ['Spring Boot', 'Hibernate', 'REST APIs', 'JDBC', 'Mockito', 'MVC · OOP'],
+  },
   {
     label: { en: 'frontend', es: 'frontend' },
     items: ['React', 'Next.js', 'Angular', 'Java Swing / JavaFX', 'HTML · CSS'],
