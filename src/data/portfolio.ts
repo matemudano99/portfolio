@@ -482,5 +482,7 @@ export const links = {
   phoneHref: 'tel:+34672400033',
   github: 'https://github.com/matemudano99',
   linkedin: 'https://www.linkedin.com/in/mateomudano/',
-  cv: '/assets/Mateo-Mudano-CV.pdf',
+  // Vercel cachea los assets un año como `immutable`: al actualizar el CV hay
+  // que subir esta versión, o los navegadores seguirían sirviendo el anterior.
+  cv: '/assets/Mateo-Mudano-CV.pdf?v=2026-08',
 };
